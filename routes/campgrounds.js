@@ -36,10 +36,8 @@ router.post("/", middleware.isLoggedIn,function (req, res) {
         username: req.user.username
     }
     req.body.campground.author = author;
-    console.log(req.body.campground.location);
-    geocoder.geocode('29 champs elysée paris', function(err, data){
-        
-        console.log(data);
+
+    geocoder.geocode(req.body.campground.location, function(err, data){
         if(err || !data.length) {
             req.flash("error", "Invalid address");
             return res.redirect("back");
