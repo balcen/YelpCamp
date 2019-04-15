@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h1><%= user.firstName + " " + user.lastName %></h1>
+            <a href="mailto:<%= user.email %>"><%= user.email %></a>
+        </div>
+        <div class="col-md-4">
+            <img class="border-0 img-thumbnail" src="<%= user.avatar %>" alt="user profie image">
+            
+        </div>
+        <div class="col-md-8 mt-sm-3 mt-md-0">
+            <strong>Description</strong>
+            <p>Bacon ipsum dolor amet andouille chuck jerky flank t-bone cow fatback kevin drumstick sausage tenderloin.
+            Sausage bacon strip steak alcatra kevin andouille corned beef. Landjaeger ham turkey drumstick. Kielbasa
+            strip steak doner venison tenderloin chuck ham hock salami drumstick chicken beef.
+
+            Biltong hamburger filet mignon tail pork chop ham hock kevin jerky salami, meatloaf porchetta. Doner venison
+            chicken kielbasa rump. Flank ham hock pork belly drumstick, ground round fatback filet mignon shoulder jerky
+            spare ribs pork chop andouille capicola pancetta meatball. Biltong filet mignon burgdoggen capicola
+            tenderloin drumstick frankfurter. Shankle jerky strip steak pastrami. Ham hock bacon ribeye landjaeger pork.</p>
+            <strong>Campground</strong>
+            <ul class="list-unstyled">
+                <% campgrounds.forEach(function(campground){ %>
+                    <li><a href="/campgrounds/<%= campground._id %>"><%= campground.name %></a></li>
+                <% });  %>
+            </ul>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer %>

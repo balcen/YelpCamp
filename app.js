@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-var express      = require("express"),
+const express      = require("express"),
 app              = express(),
 mongoose         = require("mongoose"),
 flash            = require("connect-flash"),
@@ -45,6 +45,8 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function () {
-    console.log("listening on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, process.env.IP, function () {
+    console.log(`Server started on port ${PORT}`);
 });

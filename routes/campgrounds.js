@@ -1,21 +1,21 @@
-var express = require("express");
-var router = express.Router();
-var Campgrounds = require("../models/campground");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
+const express = require("express");
+const router = express.Router();
+const Campgrounds = require("../models/campground");
+const Comment = require("../models/comment");
+const middleware = require("../middleware");
 
 // Geocoder
 
-var NodeGeocoder = require('node-geocoder');
+const NodeGeocoder = require('node-geocoder');
  
-var options = {
+const options = {
   provider: 'google',
   httpAdapter: 'https',
   apiKey: process.env.GEOCODER_API_KEY,
   formatter: null
 };
  
-var geocoder = NodeGeocoder(options);
+const geocoder = NodeGeocoder(options);
 
 // INDEX - show all campgrounds
 router.get("/", function (req, res) {
@@ -31,7 +31,7 @@ router.get("/", function (req, res) {
 
 // CREATE - add new campground to DB
 router.post("/", middleware.isLoggedIn,function (req, res) {
-    var author = {
+    const author = {
         id: req.user._id,
         username: req.user.username
     }
