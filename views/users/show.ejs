@@ -1,13 +1,20 @@
 <% include ../partials/header %>
 <div class="container mt-3">
     <div class="row">
-        <div class="col-md-12">
-            <h1><%= user.firstName + " " + user.lastName %></h1>
-            <a href="mailto:<%= user.email %>"><%= user.email %></a>
+        <div class="col-md-12 mb-md-2">
+            <% if(user.firstName && user.lastName) { %>
+                <h1><%= user.firstName + " " + user.lastName %></h1>
+                <a href="mailto:<%= user.email %>"><%= user.email %></a>
+            <% }else { %>
+                <h1><%= user.username %></h1>
+            <% } %>
         </div>
         <div class="col-md-4">
-            <img class="border-0 img-thumbnail" src="<%= user.avatar %>" alt="user profie image">
-            
+            <% if(user.avatar){ %>
+                <img class="border-0 img-thumbnail" src="<%= user.avatar %>" alt="user profie image">
+            <% }else{ %>
+                <img class="border-0 img-thumbnail" src="https://images.unsplash.com/photo-1552343204-09c57040d686?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80" alt="default">
+            <% } %>   
         </div>
         <div class="col-md-8 mt-sm-3 mt-md-0">
             <strong>Description</strong>
