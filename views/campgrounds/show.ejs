@@ -20,7 +20,7 @@
                     <p class="card-text"><%= campground.description %></p>
                     <p class="card-text">
                         <em>Submmitted by: <a href="/user/<%= campground.author.id %>">
-                        <%= campground.author.username %></a></em>
+                        <%= campground.author.username %></a>, <%= moment(campground.createAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser.id)){ %>
                     <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -38,8 +38,8 @@
 
                 <% campground.comments.forEach(function(comment){ %>
                 <div class="row mt-1">
-                    <div class="col-md-12">
-                        <span class="float-right">10 days ago</span>
+                    <div class="col-md-12 mt-2">
+                        <span class="float-right"><%= moment(comment.createAt).fromNow() %></span>
                         <p><strong><%= comment.author.username %></strong></p>
                         <p><%= comment.text %></p>
                         <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>

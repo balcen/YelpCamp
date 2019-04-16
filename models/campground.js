@@ -21,7 +21,11 @@ var campgroundSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
-    ]
+    ],
+    createAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 // campgroundSchema.pre("remove", async function(){

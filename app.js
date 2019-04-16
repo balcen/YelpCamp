@@ -14,6 +14,8 @@ indexRoutes      = require("./routes/index"),
 campgroundRoutes = require("./routes/campgrounds"),
 commentRoutes    = require("./routes/comments");
 
+app.locals.moment = require("moment");
+
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
