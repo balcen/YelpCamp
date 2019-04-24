@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yelp Camp</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheet/main.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -14,30 +14,32 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="/" class="navbar-brand">YelpCamp</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <% if(!currentUser) {%>
-                        <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
-                        <li class="nav-item"><a href="/register" class="nav-link">SignUp</a></li>
+                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="/register" class="nav-link">SignUp</a></li>
                     <% } else { %>
-                        <li class="nav-item"><a href="/user/<%= currentUser.id %>" class="nav-link"><%= currentUser.username %></a></li>
-                        <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+                    <li class="nav-item"><a href="/user/<%= currentUser.id %>"
+                            class="nav-link"><%= currentUser.username %></a></li>
+                    <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
                     <% } %>
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <div class="container">
         <% if(error && error.length > 0) { %>
-            <div class="alert alert-danger my-3" role="alert"><%= error %></div>
+        <div class="alert alert-danger my-3" role="alert"><%= error %></div>
         <% } %>
-        
+
         <% if (success && success.length > 0) {%>
-            <div class="alert alert-success my-3" role="alert"><%= success %></div>
+        <div class="alert alert-success my-3" role="alert"><%= success %></div>
         <% } %>
     </div>

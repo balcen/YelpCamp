@@ -4,7 +4,7 @@
     <h1 class="text-center">Create a New Campground</h1>
     <div class="row">
         <div class="col-sm-6 mx-auto">
-            <form action="/campgrounds" method="POST">
+            <form action="/campgrounds" method="POST" enctype="multipart/form-data" id="campForm">
                 <div class="form-group">
                     <label for="campName">Campground Name</label>
                     <input class="form-control" id="campName" type="text" name="campground[name]" placeholder="Name">
@@ -13,9 +13,13 @@
                     <label for="campPric">Campground Price</label>
                     <input class="form-control" id="campPric" type="number" name="campground[price]" placeholder="Price" min="0.01" step="0.01">
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group mb-2">
                     <label for="campImg">Campground Image</label>
                     <input class="form-control" id="campImg" type="text" name="campground[image]" placeholder="Image URL">
+                </div> -->
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input" id="customFile" name="image" accept="image/*" required>
+                    <label class="custom-file-label" for="customFile">選擇檔案</label>
                 </div>
                 <div class="form-group">
                     <label for="campLoc">Location</label>
@@ -31,5 +35,17 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+<script>
+
+$(document).ready(
+ 
+    function () {
+        bsCustomFileInput.init()
+    }
+)
+</script>
 
 <% include ../partials/footer %>

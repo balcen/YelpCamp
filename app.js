@@ -9,6 +9,8 @@ LocalStrategy    = require("passport-local"),
 methodOverride   = require("method-override"),
 bodyParser       = require("body-parser"),
 User             = require("./models/user"),
+multer           = require("multer"),
+cloudinary       = require("cloudinary"),
 seedDB           = require("./seeds"),
 indexRoutes      = require("./routes/index"),
 campgroundRoutes = require("./routes/campgrounds"),
@@ -16,7 +18,9 @@ commentRoutes    = require("./routes/comments");
 
 app.locals.moment = require("moment");
 
-mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+let DATABASEURL = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
+
+mongoose.connect(DATABASEURL, { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static('public'));

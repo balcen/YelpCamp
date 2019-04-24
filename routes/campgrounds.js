@@ -1,8 +1,35 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
+const cloudinary = require("cloudinary");
 const Campgrounds = require("../models/campground");
 const Comment = require("../models/comment");
 const middleware = require("../middleware");
+
+// Multer configuration
+// multer - diskStorage
+const storage = multer.diskStorage({
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    }
+});
+
+// filter config
+const imageFilter = function(req, file, cb) {
+    if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error("Only image files are allowed!"), false);
+    }
+    cb(null, true);
+}
+
+const upload = multer({ storage: storage, fileFilter: imageFilter });
+
+// Cloudinary Configuration - option to use environment variable of CLOUDINARY_URL
+cloudinary.config({
+    cloud_name: "dcolyry3i",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRETE
+})
 
 // Geocoder
 
@@ -30,31 +57,37 @@ router.get("/", function (req, res) {
 });
 
 // CREATE - add new campground to DB
-router.post("/", middleware.isLoggedIn,function (req, res) {
-    const author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    req.body.campground.author = author;
+// upload.single can upload a file as name of image
+router.post("/", middleware.isLoggedIn, upload.single("image"), function (req, res) {
+    // ensure that file already been uploaded to cloudinary
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        req.body.campground.image = result.url;
 
-    geocoder.geocode(req.body.campground.location, function(err, data){
-        if(err || !data.length) {
-            req.flash("error", "Invalid address");
-            return res.redirect("back");
+        req.body.campground.author = {
+            id: req.user._id,
+            username: req.user.username
         }
-        req.body.campground.lat = data[0].latitude;
-        req.body.campground.lng = data[0].longitude;
-        req.body.campground.location = data[0].formattedAddress;
-        
-        // Create a new campground and save to DB
-        Campgrounds.create(req.body.campground, function (err, campground) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.redirect("/campgrounds");
+    
+        // ensure that location has been founded
+        geocoder.geocode(req.body.campground.location, function(err, data){
+            if(err || !data.length) {
+                req.flash("error", "Invalid address");
+                return res.redirect("back");
             }
+            req.body.campground.lat = data[0].latitude;
+            req.body.campground.lng = data[0].longitude;
+            req.body.campground.location = data[0].formattedAddress;
+            
+            // Create a new campground and save to DB
+            Campgrounds.create(req.body.campground, function (err, campground) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.redirect("/campgrounds");
+                }
+            });
         });
-    });
+    })
 });
 
 // NEW - show form to create new campground
