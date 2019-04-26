@@ -57,7 +57,7 @@ router.get("/logout", function(req, res){
 // USER PROFILE
 router.get("/user/:id", function(req, res) {
     User.findById(req.params.id, function(err, foundUser) {
-        if(err){
+        if(err || !foundUser){
             req.flash("error", "Something goes wrong.")
             return res.redirect("/campgrounds");
         }
@@ -70,5 +70,44 @@ router.get("/user/:id", function(req, res) {
         });
     });
 });
+
+// USER PROFILE EDIT
+router.get("/user/:id/edit", ownership, function(req, res) {
+    User.findById(req.params.id, function(err, foundUser) {
+        if(err || !foundUser) {
+            req.flash("error", "Something goes wrong");
+            return res.redirect("/campgrounds");
+        } 
+        res.render("users/edit", {user: foundUser});
+    })
+})
+
+// USER PROFILE UPDATE
+router.put("/user/:id", ownership, function(req, res) {
+    User.findByIdAndUpdate(req.params.id, req.body.user, function(err){
+        if(err) {
+            req.flash("error", "Something go wrong")
+            res.redirect("/user/" + req.params.id);
+        } else {
+            req.flash("success", "編輯完成");
+            res.redirect("/user/" + req.params.id);
+        }
+    })
+})
+
+// Middleware for user profile check
+function ownership(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.params.id == req.user._id) {
+            return next();
+        } else {
+            req.flash("error", "權限不足");
+            res.redirect("/campgrounds");
+        }
+    } else {
+        req.flash("error", "權限不足");
+        res.redirect("/campgrounds");
+    }
+}
 
 module.exports = router;
