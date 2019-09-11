@@ -10,7 +10,6 @@ methodOverride   = require("method-override"),
 bodyParser       = require("body-parser"),
 User             = require("./models/user"),
 multer           = require("multer"),
-cloudinary       = require("cloudinary"),
 seedDB           = require("./seeds"),
 indexRoutes      = require("./routes/index"),
 campgroundRoutes = require("./routes/campgrounds"),
@@ -51,8 +50,8 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, process.env.IP, function () {
+app.listen(PORT, function () {
     console.log(`Server started on port ${PORT}`);
 });

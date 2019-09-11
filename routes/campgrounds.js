@@ -26,7 +26,7 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 // Cloudinary Configuration - option to use environment variable of CLOUDINARY_URL
 cloudinary.config({
-    cloud_name: "dcolyry3i",
+    cloud_name: "dhivb8oa7",
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRETE
 })
@@ -71,7 +71,7 @@ router.post("/", middleware.isLoggedIn, upload.single("image"), function (req, r
         // ensure that location has been founded
         geocoder.geocode(req.body.campground.location, function(err, data){
             if(err || !data.length) {
-                req.flash("error", "Invalid address");
+                req.flash("error", `Invalid address ${err}`);
                 return res.redirect("back");
             }
             req.body.campground.lat = data[0].latitude;
