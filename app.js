@@ -2,7 +2,9 @@ require("dotenv").config();
 
 const express      = require("express"),
 app              = express(),
+path             = require("path"),
 mongoose         = require("mongoose"),
+favicon          = require("serve-favicon"),
 flash            = require("connect-flash"),
 passport         = require("passport"),
 LocalStrategy    = require("passport-local"),
@@ -26,6 +28,9 @@ app.use(express.static('public'));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); // seed the database
+
+// FAVICON
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // PASSPORT CONFIGRATION
 app.use(require("express-session")({
